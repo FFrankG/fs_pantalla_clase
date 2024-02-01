@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:transportes_app/common/widgets/date_widget.dart';
 import 'package:transportes_app/config/app_init.dart';
 import 'package:transportes_app/modules/login/bloc/login_bloc.dart';
 import 'package:transportes_app/modules/login/domain/dtos/login_peticion_dto.dart';
@@ -17,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _pass = TextEditingController();
   final GlobalKey<FormState> _keyform = GlobalKey<FormState>();
   bool ocultarContrasenia = true;
+  DateTime _fechaInicial = DateTime.now();
 
   @override
   void initState() {
@@ -28,6 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final ColorScheme color = Theme.of(context).colorScheme;
+
+
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if(state is LoginLoading){
@@ -148,6 +152,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                             fillColor: Colors.white,
                                             focusColor: Colors.white),
                                       ),
+                                      SizedBox(
+                                        height: size.height * 0.02,
+                                      ),
+                                      DateWidget(
+                                        onCountChange: (fechaNueva) {
+                                          _fechaInicial = fechaNueva;
+                                          setState(() {});
+                                        },
+                                        dateInitial: _fechaInicial,
+                                        label: '',
+                                        inputDecoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            border: const OutlineInputBorder(),
+                                            ),
+                                      )
                                     ],
                                   )),
                               SizedBox(
